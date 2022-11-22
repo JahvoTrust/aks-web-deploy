@@ -1,0 +1,32 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: webdeploy
+  labels:
+    app: web
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: web
+  template:
+    metadata:
+      labels:
+        app: web
+    spec:
+      containers:
+        - name: jahvotrustmyweb
+          image: acrtest1003.azurecr.io/jahvotrustmyweb:128
+          ports:
+            - containerPort: 3000
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: webdeploy-service
+spec:
+  type: LoadBalancer
+  ports:
+  - port: 3000
+  selector:
+    app: web
